@@ -1,7 +1,7 @@
 /*
 
 psf -- Process Stack Faker (a.k.a. Fucker)
-Coded by Stas; (C)opyLeft by SysD Destructive Labs, 1997-2001
+Coded by Stas; (C)opyLeft by SysD Destructive Labs, 1997-2003
 
 Tested on: FreeBSD 4.3, Linux 2.4, NetBSD 1.5, Solaris 2.7
 
@@ -94,8 +94,9 @@ you're glad with my quick & dirty solution called "psf", happy faking!!!
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <libgen.h>
 
-#define VERSION		"0.02a"
+#define VERSION		"0.03"
 #define MAXPATH		256
 
 char *fullpath(char *cmd)
@@ -110,8 +111,8 @@ char *fullpath(char *cmd)
 	if  (*cmd == '.')
 		if (getcwd(filename, MAXPATH - 1) != NULL)
 		{
-			strncat(filename, "/");
-			strncat(filename, cmd);
+			strncat(filename, "/", MAXPATH - 1);
+			strncat(filename, cmd, MAXPATH - 1);
 			return filename;
 		}
 		else
@@ -212,7 +213,7 @@ char *mytmp(void)
 void usage(char *prog)
 {
 	printf("Process Stack Faker (a.k.a. Fucker) v" VERSION "\n");
-	printf("Coded by Stas; (C)opyLeft by SysD Destructive Labs, 1997-2001\n\n");
+	printf("Coded by Stas; (C)opyLeft by SysD Destructive Labs, 1997-2003\n\n");
 
 	printf("Usage: %s [options] command arg1 arg2 ...\n", prog);
 	printf("Where options can be:\n");
